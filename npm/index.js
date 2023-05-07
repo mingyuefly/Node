@@ -1,31 +1,118 @@
 /**
- * Node.js 异步编程
+ * Node.js 异步编程 async/await
  */
 
-(function() {
-    var promise = Promise.all([
-        interview('geekbang'),
-        interview('tencent')
-    ]).then(() => {
-        console.log('smile')
-    }).catch((err) => {
-        console.log('cry for ' + err.name)
-    })
+(async function() {
+    try {
 
-    function interview(name) {
-        return new Promise(function(resolve, reject) {
-            setTimeout(() => {
-                if (Math.random() > 0.2) {
-                    resolve('success')
-                } else {
-                    var error = new Error('fail')
-                    error.name = name
-                    reject(error) 
-                }
-            }, 500)
-        })
+        // await interview(1)
+        // await interview(2)
+        // await interview(3)
+
+        await Promise.all([interview(1), interview(2)])
+
+    } catch (e) {
+        return console.log('cry at ' + e.round)
     }
+    console.log('smile')
 })()
+
+function interview(round) {
+    return new Promise(function(resolve, reject) {
+        setTimeout(() => {
+            if (Math.random() > 0.2) {
+                resolve('success')
+            } else {
+                var error = new Error('fail')
+                error.round = round
+                reject(error) 
+            }
+        }, 500)
+    })
+}
+
+
+// (function() {
+//     const result = async function() {
+//         try {
+//             var content = await new Promise((resolve, reject) => {
+//                 setTimeout(()=>{
+//                     reject(new Error(8))
+//                 }, 500)
+//             })
+//         } catch (e) {
+//             console.log('error', e.message)
+//         }
+        
+//         console.log(content)
+//         return 4
+//     }()
+    
+//     setTimeout(()=>{
+//         console.log(result)
+//     }, 800)
+// })()
+
+
+
+// (function() {
+//     const result = async function() {
+//         var content = await new Promise((resolve, reject) => {
+//             setTimeout(()=>{
+//                 resolve(6)
+//             }, 500)
+//         })
+//         console.log(content)
+//         return 4
+//     }()
+    
+//     setTimeout(()=>{
+//         console.log(result)
+//     }, 800)
+// })()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/**
+ * Node.js 异步编程 promise
+ */
+
+// (function() {
+//     var promise = Promise.all([
+//         interview('geekbang'),
+//         interview('tencent')
+//     ]).then(() => {
+//         console.log('smile')
+//     }).catch((err) => {
+//         console.log('cry for ' + err.name)
+//     })
+
+//     function interview(name) {
+//         return new Promise(function(resolve, reject) {
+//             setTimeout(() => {
+//                 if (Math.random() > 0.2) {
+//                     resolve('success')
+//                 } else {
+//                     var error = new Error('fail')
+//                     error.name = name
+//                     reject(error) 
+//                 }
+//             }, 500)
+//         })
+//     }
+// })()
 
 
 // (function() {
