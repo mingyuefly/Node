@@ -2,17 +2,81 @@
  * Node.js 异步编程
  */
 
-var promise = new Promise(function(resolve, reject) {
-    setTimeout(()=>{
-        resolve()
-    }, 500)
-})
+(function() {
+    var promise = Promise.all([
+        interview('geekbang'),
+        interview('tencent')
+    ]).then(() => {
+        console.log('smile')
+    }).catch((err) => {
+        console.log('cry for ' + err.name)
+    })
 
-console.log(promise)
+    function interview(name) {
+        return new Promise(function(resolve, reject) {
+            setTimeout(() => {
+                if (Math.random() > 0.2) {
+                    resolve('success')
+                } else {
+                    var error = new Error('fail')
+                    error.name = name
+                    reject(error) 
+                }
+            }, 500)
+        })
+    }
+})()
 
-setTimeout(()=>{
-    console.log(promise)
-}, 800)
+
+// (function() {
+//     var promise = interview(1)
+//     .then(()=>{
+//         return interview(2)
+//     })
+//     .then(()=>{
+//         return interview(3)
+//     }).then(()=>{
+//         console.log('smile')
+//     })
+//     .catch((error)=>{
+//         console.log('cry at ' + error.round + ' round')
+//     })
+
+//     function interview(round) {
+//         return new Promise(function(resolve, reject) {
+//             setTimeout(() => {
+//                 if (Math.random() > 0.2) {
+//                     resolve('success')
+//                 } else {
+//                     var error = new Error('fail')
+//                     error.round = round
+//                     reject(error) 
+//                 }
+//             }, 500)
+//         })
+//     }
+// })()
+
+
+// (function() {
+//     var promise = new Promise(function(resolve, reject) {
+//         setTimeout(()=>{
+//             // resolve(3)
+//             reject(new Error('3'))
+//         }, 500)
+//     }).then(function(res) {
+//         console.log(res)
+//     }).catch(function(error) {
+//         console.log(error)
+//     })
+    
+//     console.log(promise)
+    
+//     setTimeout(()=>{
+//         console.log(promise)
+//     }, 800)
+// })()
+
 
 
 
