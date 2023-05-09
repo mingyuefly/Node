@@ -5,7 +5,7 @@ const fs = require('fs')
 const game = require('./game')   
 
 const express = require('express')
-const { nextTick } = require('process')
+// const { nextTick } = require('process')
 
 var playerWinCount = 0
 let playWon = false
@@ -15,15 +15,15 @@ let sameCount = 0
 const app = express()
 
 app.get('/favicon.ico', function(request, response) {
-    response.writeHead(200)
+    response.status(200)
     response.end()
     return
 })
 
 app.get('/game', function(request, response, next) {
     if (playerWinCount >= 3 || sameCount == 9) {
-        response.writeHead(500)
-        response.end('我再也不和你玩了')
+        response.status(500)
+        response.send('我再也不和你玩了')
         return
     }
     // 通过next执行后续中间件
@@ -47,8 +47,8 @@ app.get('/game', function(request, response, next) {
     if (playerLastAction == playerAction) {
         sameCount++
         if (sameCount >= 3) {
-            response.writeHead(400)
-            response.end('你作弊！')
+            response.status(400)
+            response.send('你作弊！')
             sameCount = 9
             return;
         }
@@ -63,7 +63,6 @@ app.get('/game', function(request, response, next) {
 
 }, function(request, response) {
     const playerAction = response.playerAction
-
     const gameResult = game(playerAction)
 
     // 如果这里执行setTimeout，会导致前面的洋葱模型失效
@@ -71,19 +70,18 @@ app.get('/game', function(request, response, next) {
     // setTimeout(()=> {
     response.status(200)
     if (gameResult == 0) {
-        response.end('平局') 
+        response.send('平局') 
     } else if (gameResult == 1) {
-        response.end('你赢了')
+        response.send('你赢了')
         response.playWon = true
     } else {
-        response.end('你输了')
+        response.send('你输了')
     }  
     // }, 500) 
 })
 
 app.get('/', function(request, response) {
-    response.writeHead(200)
-    fs.createReadStream(__dirname + '/index.html').pipe(response)
+    response.send(fs.readFileSync(__dirname + '/index.html', 'utf-8'))
 })
 
 app.listen(3000)
