@@ -1,0 +1,21 @@
+{
+  "name": "detail-sever",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "easy_sock": "^0.4.1",
+    "koa": "^2.14.2",
+    "koa-mount": "^4.0.0",
+    "koa-static": "^5.0.0",
+    "protocol-buffers": "^5.0.0"
+  }
+}
